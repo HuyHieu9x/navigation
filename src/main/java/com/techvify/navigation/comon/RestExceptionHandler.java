@@ -133,7 +133,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		}
 		int code = 5;
 		String moreInformation = "http://localhost:8080/api/v1/exception/5";
-		
 		ErrorResponse response = new ErrorResponse(message, detailMessage, errors, code, moreInformation);
 		
 		return new ResponseEntity<>(response, status);

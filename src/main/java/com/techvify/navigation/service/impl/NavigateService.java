@@ -45,9 +45,27 @@ public class NavigateService implements INavigateService {
         Session session = entityManager.unwrap(Session.class);
         Filter filter = session.enableFilter("deletedNavigateFilter");
         filter.setParameter("isDeleted", isDeleted);
+
         List<Navigate> navigateList = navigateRepository.findAll();
+
         session.disableFilter("deletedNavigateFilter");
         return new ResponseEntity<>(navigateList, HttpStatus.OK);
+    }
+
+    @Override
+    public boolean check(boolean isDeleted) {
+        Session session = entityManager.unwrap(Session.class);
+        Filter filter = session.enableFilter("deletedNavigateFilter");
+        filter.setParameter("isDeleted", isDeleted);
+
+        List<Navigate> navigateList = navigateRepository.findAll();
+
+        session.disableFilter("deletedNavigateFilter");
+        if (navigateList.size() < 5){
+            return true;
+        }
+
+        return false;
     }
 
     @Override

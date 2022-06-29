@@ -49,4 +49,9 @@ public class NavigateController {
         return navigateService.delete(id);
     }
 
+    @GetMapping("/check")
+    public boolean check(@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted){
+       return navigateService.check(isDeleted);
+    }
+
 }

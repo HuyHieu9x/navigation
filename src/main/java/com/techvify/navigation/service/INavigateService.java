@@ -14,4 +14,5 @@ public interface INavigateService {
     ResponseEntity<?> delete(int id);
     boolean existsById(int id);
     boolean existsByName(String name);
+    boolean check(boolean isDeleted);
 }
