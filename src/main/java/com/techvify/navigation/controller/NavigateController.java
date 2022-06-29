@@ -27,11 +27,11 @@ public class NavigateController {
     }
 
     @PostMapping
-    public ResponseEntity<Navigate> create(@RequestBody @Valid NavigateRequest navigateRequest, BindingResult bindingResult) {
+    public ResponseEntity<?> create(@RequestBody @Valid NavigateRequest navigateRequest, BindingResult bindingResult,@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return navigateService.create(navigateRequest);
+            return navigateService.create(navigateRequest,isDeleted);
         }
     }
 

@@ -29,10 +29,18 @@ public class NavigateService implements INavigateService {
     private EntityManager entityManager;
 
     @Override
-    public ResponseEntity<Navigate> create(NavigateRequest navigateRequest) {
+    public ResponseEntity<?> create(NavigateRequest navigateRequest,boolean isDeleted) {
         try {
             Navigate navigate = modelMapper.map(navigateRequest, Navigate.class);
-            return new ResponseEntity<>(navigateRepository.save(navigate), HttpStatus.OK);
+            List<Navigate> navigateList = getListNotDeleted(isDeleted);
+
+            if (navigateList.size() < 5){
+                return new ResponseEntity<>(navigateRepository.save(navigate), HttpStatus.OK);
+            }else {
+                ResponseMessage responseMessage = new ResponseMessage(HttpStatus.BAD_REQUEST,"Delete 1 Obj nav if want create");
+                return ResponseEntity.badRequest().body(responseMessage);
+            }
+
         } catch (Exception e) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add(e.getMessage(), "CREATE FAIL");
@@ -88,6 +96,19 @@ public class NavigateService implements INavigateService {
         navigateRepository.deleteById(id);
         ResponseMessage responseMessage = new ResponseMessage(HttpStatus.OK, "Delete successfully");
         return ResponseEntity.ok().body(responseMessage);
+    }
+
+    @Override
+    public List<Navigate> getListNotDeleted(boolean isDeleted) {
+        Session session = entityManager.unwrap(Session.class);
+        Filter filter = session.enableFilter("deletedNavigateFilter");
+        filter.setParameter("isDeleted", isDeleted);
+
+        List<Navigate> navigateList = navigateRepository.findAll();
+
+        session.disableFilter("deletedNavigateFilter");
+
+        return  navigateList;
     }
 
     @Override

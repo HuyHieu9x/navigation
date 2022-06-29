@@ -8,11 +8,12 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface INavigateService {
-    ResponseEntity<Navigate> create(NavigateRequest navigateRequest);
+    ResponseEntity<?> create(NavigateRequest navigateRequest,boolean isDeleted);
     ResponseEntity<List<Navigate>> read(boolean isDeleted);
     ResponseEntity<Navigate> update(int id,NavigateRequest navigateRequest);
     ResponseEntity<?> delete(int id);
     boolean existsById(int id);
     boolean existsByName(String name);
     boolean check(boolean isDeleted);
+    List<Navigate> getListNotDeleted(boolean isDeleted);
 }
