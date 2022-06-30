@@ -23,15 +23,15 @@ public class NavigateController {
 
     @GetMapping
     public ResponseEntity<List<Navigate>> getAll(@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
-        return navigateService.read(isDeleted);
+        return new ResponseEntity<>(navigateService.read(isDeleted), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid NavigateRequest navigateRequest, BindingResult bindingResult,@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
+    public ResponseEntity<?> create(@RequestBody @Valid NavigateRequest navigateRequest, BindingResult bindingResult, @RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return navigateService.create(navigateRequest,isDeleted);
+            return navigateService.create(navigateRequest, isDeleted);
         }
     }
 
@@ -40,18 +40,13 @@ public class NavigateController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return navigateService.update(id,navigateRequest);
+            return navigateService.update(id, navigateRequest);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@NavigateIdExists @PathVariable("id") int id) {
         return navigateService.delete(id);
-    }
-
-    @GetMapping("/check")
-    public boolean check(@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted){
-       return navigateService.check(isDeleted);
     }
 
 }
