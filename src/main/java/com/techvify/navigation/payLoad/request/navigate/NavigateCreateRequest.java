@@ -1,16 +1,17 @@
-package com.techvify.navigation.payLoad.request;
+package com.techvify.navigation.payLoad.request.navigate;
 
 import com.techvify.navigation.validation.NavigateNameUnique;
+
 import javax.validation.constraints.NotBlank;
 
-public class NavigateRequest {
+public class NavigateCreateRequest {
     @NotBlank(message = "{navigate.name.not-blank}")
     @NavigateNameUnique
     private String name;
     @NotBlank(message = "{navigate.link.not-blank}")
     private String link;
 
-    public NavigateRequest() {
+    public NavigateCreateRequest() {
     }
 
     public String getLink() {

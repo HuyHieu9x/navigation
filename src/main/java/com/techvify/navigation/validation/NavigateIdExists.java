@@ -8,7 +8,7 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.RUNTIME) // muc do ton tai
 @Constraint(validatedBy = {NavigateIdExistsValidator.class})
 @Documented
 @Repeatable(NavigateIdExists.List.class)

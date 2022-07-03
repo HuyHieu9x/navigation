@@ -1,7 +1,8 @@
 package com.techvify.navigation.controller;
 
 import com.techvify.navigation.entity.Navigate;
-import com.techvify.navigation.payLoad.request.NavigateRequest;
+import com.techvify.navigation.payLoad.request.navigate.NavigateCreateRequest;
+import com.techvify.navigation.payLoad.request.navigate.NavigateUpdateRequest;
 import com.techvify.navigation.service.impl.NavigateService;
 import com.techvify.navigation.validation.NavigateIdExists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,11 @@ public class NavigateController {
 
     @GetMapping
     public ResponseEntity<List<Navigate>> getAll(@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
-        return new ResponseEntity<>(navigateService.read(isDeleted), HttpStatus.OK);
+        return new ResponseEntity<>(navigateService.getAll(isDeleted), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid NavigateRequest navigateRequest, BindingResult bindingResult, @RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
+    public ResponseEntity<?> create(@RequestBody @Valid NavigateCreateRequest navigateRequest, BindingResult bindingResult, @RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
@@ -36,11 +37,11 @@ public class NavigateController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Navigate> update(@NavigateIdExists @PathVariable("id") int id, @RequestBody @Valid NavigateRequest navigateRequest, BindingResult bindingResult) {
+    public ResponseEntity<?> update(@NavigateIdExists @PathVariable("id") int id, @RequestBody @Valid NavigateUpdateRequest navigateUpdateRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return navigateService.update(id, navigateRequest);
+            return navigateService.update(id, navigateUpdateRequest);
         }
     }
 
